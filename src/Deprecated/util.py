@@ -1,5 +1,5 @@
 import pygame
-from Colors import Colors
+from src.Deprecated.Colors import Colors
 
 
 def load_image(directory):

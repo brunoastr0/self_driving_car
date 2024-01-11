@@ -4,7 +4,7 @@ from util import load_image, scale_image, getPixelArray
 class Track:
     
     def __init__(self):
-        self.image = scale_image(load_image('track/track.png'),0.5)
+        self.image = scale_image(load_image('track/track.png'), 0.5)
         self.rect = self.image.get_rect()
         self.topleft = self.rect.topleft
         self.width, self.height = self.image.get_width(), self.image.get_height()
