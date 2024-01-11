@@ -8,22 +8,24 @@ import math
 class Cars:
     MAX_VEL = 5
     MOVED = False
+    NUM_VISION = 18
 
     def __init__(self, x, y, rotation_vel, pixels):
+
         self.velocity = 0
-        self.steering_angle = 40 
         self.color = Colors.YELLOW.value
         self.image = scale_image(self.car_image(),0.05)
-        #self.image.fill(self.color)
-        self.rect = self.image.get_rect()
-        
+        self.rect = self.image.get_rect(center=(x,y))
         self.position = Vector2(x,y)
+        self.middle = self.rect.center
         self.angle = 0
         self.rotation_vel = rotation_vel
         self.aceleration = 0.1
         self.deaceleration = 0.05
         self.direction = "STOP"
         self.pixels = pixels
+        self.vision = self.NUM_VISION
+        self.sensors = [0]*self.NUM_VISION
 
         
          
@@ -33,7 +35,7 @@ class Cars:
         return load_image("car/car1.png")
     
     def draw(self, surface):
-        pygame.draw.rect(surface,Colors.BLUE.value ,self.rect)
+        # pygame.draw.rect(surface,Colors.BLUE.value ,self.rect)
         blit_rotate_center(surface, self.image, self.angle, self.position)
 
     
@@ -69,20 +71,21 @@ class Cars:
 
     def move(self):
 
+        if self.collide(self.pixels):
+                self.bounce()
+
         radians = math.radians(self.angle)
         vertical  = math.cos(radians) * self.velocity
         horizontal = math.sin(radians) * self.velocity
 
-        # if self.position.x > 
-
-        # if collision:
-        #     self.position.x = horizontal
-        #     self.position.y = vertical
         self.position.x -= horizontal
         self.position.y -= vertical
+        
+        # Update the rect based on the new position
+        self.rect.center = (int(self.position.x + self.image.get_width() / 2), int(self.position.y + self.image.get_height() / 2))
+        self.middle = self.rect.center
 
-        if self.collide(self.pixels):
-                self.bounce()
+        
 
     def deacelerate(self):
 
@@ -95,7 +98,7 @@ class Cars:
 
     def bounce(self):
         self.velocity = - self.velocity
-        self.move()
+        # self.move()
 
 
     def update(self, surface):
@@ -107,13 +110,19 @@ class Cars:
     def collide(self, pixels):
         self.x, self.y = self.position
         
-        if pixels[abs(int(self.y))][abs(int(self.x))] == 1:
+        if pixels[(round(self.y))][(round(self.x))] == 1:
             # self.move(collision=True)
             # print(self.x, self.y)
             return False
         return True
      
             
+   
+
+  
+
+    # Assuming CAR_BRAIN_QTD_INPUT and cenario are defined somewhere
+    # and you have a Carro class with attributes X, Y, Angulo, and DistanciaSensores
 
                     
                 

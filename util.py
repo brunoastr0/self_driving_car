@@ -21,18 +21,19 @@ def rgb_to_hex(rgb):
 
 
 def getPixelArray(surface):
-    hex = ['6f7074', '6c6d70','6f7073','707175','6a6a6d', '6e6f73','646567', '727377','6a6b6f']
+    hex = ['6F7073']
     width = surface.get_width()
     height = surface.get_height()
     matrix = [[0] * width for _ in range(height)]
     for i in range(width):
         for j in range(height):
+            
             color = surface.get_at((i, j))
             to_hex = rgb_to_hex((color[0], color[1], color[2]))
-            if to_hex in hex: 
+            if color[0] == 111 and color[1] == 112 and color[2] == 115: 
                 # print(to_hex)
                 matrix[j][i] = 1
-            elif to_hex not in hex:  
+            else:  
                 #print(color)
                 matrix[j][i] = 0
     # print(matrix[150][150])
@@ -85,5 +86,7 @@ def draw_track(pixels,surface):
         for j in range(height):
             if pixels[j][i] == 1:
                 surface.set_at((i,j), Colors.RED.value)
+            else:
+                surface.set_at((i,j), Colors.WHITE.value)
 
             
